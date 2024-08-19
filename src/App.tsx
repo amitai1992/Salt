@@ -1,15 +1,32 @@
+import { useState } from 'react';
 import classes from './App.module.scss';
 import data from './assets/fe_data.json';
-import { Header, Navbar } from './components';
+import { Header, Navbar, Table } from './components';
+import { ApiData, JsonFullData, Params } from './models';
 
 
 function App() {
-  console.log(data);
-  
+  const [apiData, setApidata] = useState<JsonFullData>(data)
+  const [activeSection, setActiveSection] = useState<0 | 1>(0)
+  const handleChangeTable = (newActiveSection: 0 | 1) => {
+    setActiveSection(newActiveSection)
+  }
+  const handleTableCellClick = (newRows:ApiData) => {
+    if(activeSection === 0){
+      setApidata({...apiData, request:newRows})
+    }
+    else{
+      setApidata({...apiData,response:newRows})
+    }
+   
+  }
   return (
     <>
-     <Header api={data.api} method={data.method} path={data.path} className={classes.header__position} />
-     <Navbar className={classes.navbar__position}/>
+      <Header api={apiData.api} method={apiData.method} path={apiData.path} className={classes.header__position} />
+      <Navbar callback={handleChangeTable} className={classes.navbar__position} activeIndex={activeSection} />
+      <div className={classes.table__wrapper}>
+        <Table onTableCellClick={handleTableCellClick} rows={activeSection === 0 ? apiData.request : apiData.response} />
+      </div>
     </>
   );
 }

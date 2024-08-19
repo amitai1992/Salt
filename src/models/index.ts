@@ -5,14 +5,9 @@ export type Params = {
   type: string;
 };
 
-export type RequestData = {
-  urlParams: Params[];
-  queryParams: Params[];
-  headers: Params[];
-  body: Params[];
-};
-
-export type ResponseData = {
+export type ApiData = {
+  urlParams?: Params[];
+  queryParams?: Params[];
   headers: Params[];
   body: Params[];
 };
@@ -21,6 +16,6 @@ export type JsonFullData = {
   api: string;
   method: string;
   path: string;
-  request: RequestData;
-  response: ResponseData;
+  request: ApiData
+  response: ApiData;
 };

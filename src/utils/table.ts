@@ -1,0 +1,1 @@
+export const columns = ["","Name", "PII", "Masking", "Type"]

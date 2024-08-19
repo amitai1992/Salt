@@ -2,3 +2,15 @@
     gap: 10px;
     display: flex;
 }
+
+.active{
+    color: blue;
+    border-bottom: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: blue;
+    pointer-events: none;
+}
+
+.not__active{
+    cursor: pointer;
+}
