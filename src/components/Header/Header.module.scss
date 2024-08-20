@@ -8,9 +8,18 @@
     display: flex;
     margin-left: 50px;
     gap: 5px;
+    align-items: center;
+    font-size: 12px;
 }
 
 .path__headline{
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.selected__breadcrumb{
+    color: #7D3CE9;
+    font-weight: 600;
+    color: #7D3CE9;
+    
 }

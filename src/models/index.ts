@@ -8,9 +8,11 @@ export type Params = {
 export type ApiData = {
   urlParams?: Params[];
   queryParams?: Params[];
-  headers: Params[];
-  body: Params[];
+  headers?: Params[];
+  body?: Params[];
 };
+
+export type ApiDataCategories = {[K in keyof ApiData]: string}
 
 export type JsonFullData = {
   api: string;
@@ -19,3 +21,8 @@ export type JsonFullData = {
   request: ApiData
   response: ApiData;
 };
+
+export type FormData = {
+  search: string;
+  showField: boolean;
+}

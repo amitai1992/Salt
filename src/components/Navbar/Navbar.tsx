@@ -13,8 +13,8 @@ const Navbar: FC<Props> = ({ className, callback, activeIndex }) => {
   }
   return (
     <div className={`${classes.navbar} ${className}`}>
-      <span onClick={() => handleClick(0)} className={activeIndex === 0 ? classes.active : classes.not__active}>Request</span>
-      <span onClick={() => handleClick(1)} className={activeIndex === 1 ? classes.active : classes.not__active}>Response</span>
+      <span onClick={() => handleClick(0)} className={`${activeIndex === 0 ? classes.active : classes.not__active} ${classes.link}`}>Request</span>
+      <span onClick={() => handleClick(1)} className={`${activeIndex === 1 ? classes.active : classes.not__active} ${classes.link}`}>Response</span>
     </div>
   );
 };

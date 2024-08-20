@@ -1,9 +1,13 @@
 import { FC, useState } from "react";
 import classes from "../Table.module.scss";
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { ApiData } from "../../../models";
+import {categoriesTrans} from '../../../utils';
 
 
 type Props = {
-  category: string;
+  category: keyof ApiData;
   children:JSX.Element | JSX.Element[]
 };
 
@@ -12,9 +16,9 @@ const TableRow: FC<Props> = ({ category, children }) => {
   const handleClick = () => setIsExpanded(!isExpanded);
   return (
     <>
-      <tr onClick={handleClick} style={categoryRowStyle}>
-        <td colSpan={4}>
-          {category} {isExpanded ? "▲" : "▼"}
+      <tr onClick={handleClick} >
+        <td colSpan={5} className={classes.td}>
+        <div className={classes.expanded__div}>{isExpanded ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>} {categoriesTrans[category]}</div>
         </td>
       </tr>
       {isExpanded && children}
@@ -24,12 +28,6 @@ const TableRow: FC<Props> = ({ category, children }) => {
 
 export default TableRow;
 
-const categoryRowStyle: React.CSSProperties = {
-  backgroundColor: "#f2f2f2",
-  cursor: "pointer",
-};
 
-const tableCellStyle: React.CSSProperties = {
-  padding: "8px",
-  borderBottom: "1px solid #ddd",
-};
+
+

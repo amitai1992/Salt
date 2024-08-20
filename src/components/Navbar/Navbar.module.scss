@@ -4,13 +4,22 @@
 }
 
 .active{
-    color: blue;
+    color: #7D3CE9;
     border-bottom: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: blue;
+    border-bottom-width: 2px;
+    border-bottom-color: #7D3CE9;
     pointer-events: none;
+    font-weight: 600;
 }
 
 .not__active{
     cursor: pointer;
+}
+
+.link{
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    line-height: 22px;
+    padding-bottom: 10px;
 }

@@ -20,8 +20,11 @@ const Header: FC<Props> = ({ method, path, className }) => {
         >{`${method.toUpperCase()} ${path}`}</h2>
       </div>
       <div className={classes.breadcrumbs__wrapper}>
-        example <ArrowForwardIosOutlinedIcon fontSize="small" /> example{" "}
-        <ArrowForwardIosOutlinedIcon fontSize="small" /> example
+        <span className={classes.selected__breadcrumb}>Inventory </span>
+        <ArrowForwardIosOutlinedIcon fontSize="small" />
+        <span className={classes.selected__breadcrumb}>Endpoints Group{" "}</span>
+        <ArrowForwardIosOutlinedIcon fontSize="small" />
+        <span>Endpoint Details</span>
       </div>
     </div>
   );

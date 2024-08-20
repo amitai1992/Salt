@@ -2,6 +2,8 @@ import React from 'react';
 import TableRow from './TableRow/TableRow';
 import { columns } from '../../utils';
 import { ApiData } from '../../models';
+import classes from './Table.module.scss'
+
 
 
 type Props = {
@@ -11,11 +13,21 @@ type Props = {
 
 const Table: React.FC<Props> = ({ rows, onTableCellClick }) => {
 
+  const handleCellClick = (rows: ApiData, category: keyof ApiData, index: number, cell: "pii" | "masked") => {
+    const newRows = { ...rows }
+    if (newRows[category]?.[index]) {
+      newRows[category][index][cell] = !newRows[category][index][cell]
+      onTableCellClick(newRows)
+    }
+  }
   return (
-    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <table className={classes.table}>
       <thead>
         <tr>
-          {columns.map((column) => <th key={column} style={tableHeaderStyle}>{column}</th>)}
+          {columns.map((column, index) =>
+            <th className={`${classes.th} ${index === columns.length - 1 ? classes.th__last : ""}`} key={column}>
+              <div className={classes.th__content}>{column} {index < columns.length - 1 ? <div className={classes.th__divider}></div> : <></>} </div>
+            </th>)}
         </tr>
       </thead>
       <tbody>
@@ -23,25 +35,17 @@ const Table: React.FC<Props> = ({ rows, onTableCellClick }) => {
           <TableRow key={`${category}-${rows[category]}`} category={category}>
             {rows[category] ? rows[category].map((param, index) => (
               <tr key={`${param}-${index}`}>
-                <td></td>
-                <td>{param.name}</td>
-                <td onClick={() => {
-                  const newRows = { ...rows }
-                  if (newRows[category]?.[index]) {
-                    newRows[category][index].pii = !newRows[category][index].pii
-                    onTableCellClick(newRows)
-                  }
-                }}>
-                  {`${param.pii}`}
+                <td className={classes.td}></td>
+                <td className={classes.td}>{param.name}</td>
+                <td className={classes.td}>
+                  <div onClick={() => handleCellClick(rows, category, index, "pii")} className={`${classes.pii} ${param.pii ? classes.pii__true : ""}`}>pii</div>
                 </td>
-                <td onClick={() => {
-                  const newRows = { ...rows }
-                  if (newRows[category]?.[index]) {
-                    newRows[category][index].masked = !newRows[category][index].masked
-                    onTableCellClick(newRows)
-                  }
-                }}>{`${param.masked}`}</td>
-                <td >{param.type}</td>
+                <td className={classes.td}>
+                  <div onClick={() => handleCellClick(rows, category, index, "masked")} className={`${classes.masked} ${param.masked ? classes.masked__true : ""}`}>
+                    masked
+                  </div>
+                </td>
+                <td className={classes.td}>{param.type}</td>
 
               </tr>
             )) : <></>}
@@ -52,10 +56,6 @@ const Table: React.FC<Props> = ({ rows, onTableCellClick }) => {
   );
 };
 
-const tableHeaderStyle: React.CSSProperties = {
-  textAlign: 'left',
-  padding: '8px',
-  borderBottom: '1px solid #ddd',
-};
+
 
 export default Table;

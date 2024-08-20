@@ -1,0 +1,57 @@
+.filters__container{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 5px;
+}
+
+.input__fields__container{
+    display: flex;
+    width: 95%;
+    background: #FFFFFF;
+    border: 1px solid #DED8E8;
+    border-radius: 6px;
+}
+
+.input{
+    width: 80%;
+}
+
+.label{
+    font-size: 14px !important;
+    color: #A1A0A3 !important;
+}
+
+.apply__btn{
+    font-size: 14px;
+    width: 100px;
+    background: #7D3CE9;
+    color: #F5F5F5;
+    border-radius: 6px;
+    border-width: 0;
+    height: 35px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.apply__btn:hover{
+    background: #691ae9;
+}
+
+.reset__btn{
+    border: none;
+    background: transparent;
+    color: #D5D4D8;
+    cursor: pointer;
+}
+
+.reset__btn:hover{
+    color: #9b9b9c;
+}
+
+.form__btn__container{
+    position: relative;
+    top: 15px;
+    margin-left: auto;
+    max-width: 100px;
+}
