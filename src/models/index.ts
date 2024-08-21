@@ -26,3 +26,5 @@ export type FormData = {
   search: string;
   showField: boolean;
 }
+
+export type BooleanCell = "pii" | "masked";

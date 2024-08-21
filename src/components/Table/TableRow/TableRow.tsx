@@ -1,14 +1,12 @@
 import { FC, useState } from "react";
 import classes from "../Table.module.scss";
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ApiData } from "../../../models";
-import {categoriesTrans} from '../../../utils';
-
+import { categoriesTrans } from "../../../utils";
+import { DownArrow, UpArrow } from "../../../styles";
 
 type Props = {
   category: keyof ApiData;
-  children:JSX.Element | JSX.Element[]
+  children: JSX.Element | JSX.Element[];
 };
 
 const TableRow: FC<Props> = ({ category, children }) => {
@@ -16,9 +14,16 @@ const TableRow: FC<Props> = ({ category, children }) => {
   const handleClick = () => setIsExpanded(!isExpanded);
   return (
     <>
-      <tr onClick={handleClick} >
+      <tr>
         <td colSpan={5} className={classes.td}>
-        <div className={classes.expanded__div}>{isExpanded ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>} {categoriesTrans[category]}</div>
+          <div className={classes.expanded__div}>
+            {isExpanded ? (
+              <UpArrow onClick={handleClick} />
+            ) : (
+              <DownArrow onClick={handleClick} />
+            )}{" "}
+            {categoriesTrans[category]}
+          </div>
         </td>
       </tr>
       {isExpanded && children}
@@ -27,7 +32,3 @@ const TableRow: FC<Props> = ({ category, children }) => {
 };
 
 export default TableRow;
-
-
-
-

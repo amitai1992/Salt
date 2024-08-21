@@ -1,54 +1,51 @@
-import React from 'react';
-import TableRow from './TableRow/TableRow';
-import { columns } from '../../utils';
-import { ApiData } from '../../models';
-import classes from './Table.module.scss'
-
-
+import { memo } from "react";
+import TableRow from "./TableRow/TableRow";
+import { ApiData, BooleanCell } from "../../models";
+import classes from "./Table.module.scss";
+import TableHeaders from "./TableHeaders/TableHeaders";
+import ExpandedRow from "./ExpandedRow/ExpandedRow";
 
 type Props = {
-  rows: ApiData
-  onTableCellClick: (newRows: ApiData) => void
-}
+  rows: ApiData;
+  onTableCellClick: (
+    category: keyof ApiData,
+    cell: BooleanCell ,
+    name: string
+  ) => void;
+};
 
 const Table: React.FC<Props> = ({ rows, onTableCellClick }) => {
-
-  const handleCellClick = (rows: ApiData, category: keyof ApiData, index: number, cell: "pii" | "masked") => {
-    const newRows = { ...rows }
-    if (newRows[category]?.[index]) {
-      newRows[category][index][cell] = !newRows[category][index][cell]
-      onTableCellClick(newRows)
+  const handleCellClick = (
+    rows: ApiData,
+    category: keyof ApiData,
+    index: number,
+    cell: BooleanCell 
+  ) => {
+    if (rows[category]?.[index]) {
+      onTableCellClick(category, cell, rows[category][index].name);
     }
-  }
+  };
   return (
     <table className={classes.table}>
       <thead>
-        <tr>
-          {columns.map((column, index) =>
-            <th className={`${classes.th} ${index === columns.length - 1 ? classes.th__last : ""}`} key={column}>
-              <div className={classes.th__content}>{column} {index < columns.length - 1 ? <div className={classes.th__divider}></div> : <></>} </div>
-            </th>)}
-        </tr>
+        <TableHeaders />
       </thead>
       <tbody>
-        {(Object.keys(rows) as Array<keyof ApiData>).map(category => (
+        {(Object.keys(rows) as Array<keyof ApiData>).map((category) => (
           <TableRow key={`${category}-${rows[category]}`} category={category}>
-            {rows[category] ? rows[category].map((param, index) => (
-              <tr key={`${param}-${index}`}>
-                <td className={classes.td}></td>
-                <td className={classes.td}>{param.name}</td>
-                <td className={classes.td}>
-                  <div onClick={() => handleCellClick(rows, category, index, "pii")} className={`${classes.pii} ${param.pii ? classes.pii__true : ""}`}>pii</div>
-                </td>
-                <td className={classes.td}>
-                  <div onClick={() => handleCellClick(rows, category, index, "masked")} className={`${classes.masked} ${param.masked ? classes.masked__true : ""}`}>
-                    masked
-                  </div>
-                </td>
-                <td className={classes.td}>{param.type}</td>
-
-              </tr>
-            )) : <></>}
+            {rows[category] ? (
+              rows[category].map((param, index) => (
+                <ExpandedRow
+                  onClick={(cell: BooleanCell ) =>
+                    handleCellClick(rows, category, index, cell)
+                  }
+                  param={param}
+                  key={`${param}-${index}`}
+                />
+              ))
+            ) : (
+              <></>
+            )}
           </TableRow>
         ))}
       </tbody>
@@ -56,6 +53,4 @@ const Table: React.FC<Props> = ({ rows, onTableCellClick }) => {
   );
 };
 
-
-
-export default Table;
+export default memo(Table);
