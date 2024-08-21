@@ -18,3 +18,15 @@ export function filter(rowsData: ApiData, formData: FormData) {
   }
   return rowsData;
 }
+
+export function updateExistingRows(prevRows: ApiData, rowsData:ApiData) {
+  return (Object.keys(prevRows) as Array<keyof ApiData>).reduce((updatedRows, category) => {
+    updatedRows[category] = prevRows[category]?.map((param) => {
+      const updatedParam = rowsData[category]?.find(
+        (p) => p.name === param.name
+      );
+      return updatedParam ? { ...param, ...updatedParam } : param;
+    });
+    return updatedRows;
+  }, { ...prevRows });
+}

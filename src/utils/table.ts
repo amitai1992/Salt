@@ -8,3 +8,5 @@ export const categoriesTrans:ApiDataCategories = {
     headers:"headers",
     body:"body"
 }
+
+

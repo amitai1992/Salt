@@ -1,29 +1,30 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import classes from "./App.module.scss";
-import data from "./assets/fe_data.json";
 import { Filter, Header, Navbar, Table } from "./components";
-import { ApiData, BooleanCell, JsonFullData } from "./models";
+import { ApiData, BooleanCell } from "./models";
 import { FormData } from "./models";
 import { filter } from "./utils/filters";
+import { useMainHook } from "./hooks";
 
 function App() {
-  const [apiData, setApidata] = useState<JsonFullData>({ ...data });
-  const [activeSection, setActiveSection] = useState<0 | 1>(0);
-  const [rows, setRows] = useState<ApiData>({ ...data.request });
-  useEffect(() => {
-    setRows(
-      activeSection === 0 ? { ...apiData.request } : { ...apiData.response }
-    );
-  }, [activeSection]);
+  const {
+    activeSection,
+    apiData,
+    rows,
+    setActiveSection,
+    setApidata,
+    setRows,
+  } = useMainHook();
 
   const handleChangeTable = (newActiveSection: 0 | 1) => {
     setActiveSection(newActiveSection);
   };
 
   const handleTableCellClick = useCallback(
-    (category: keyof ApiData, cell: BooleanCell , name: string) => {
-      const newData =
-        activeSection === 0 ? { ...apiData.request } : { ...apiData.response };
+    (category: keyof ApiData, cell: BooleanCell, name: string) => {
+      const newData: ApiData = JSON.parse(
+        JSON.stringify(activeSection === 0 ? apiData.request : apiData.response)
+      );
       const index = newData[category]?.findIndex(
         (param) => param.name === name
       );
@@ -58,9 +59,7 @@ function App() {
       />
       <div className={classes.table__filter__container}>
         <div>
-          <Filter
-            onApply={applyFilter}
-          />
+          <Filter onApply={applyFilter} />
         </div>
         <div className={classes.table__wrapper}>
           <Table onTableCellClick={handleTableCellClick} rows={rows} />
