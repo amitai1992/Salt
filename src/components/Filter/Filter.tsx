@@ -3,6 +3,8 @@ import { FC, useState } from "react";
 import classes from './Filter.module.scss'
 import { FormData } from "../../models";
 import { styled } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
+
 type Props = {
     onApply: (formData: FormData) => void
     onReset: () => void;
@@ -10,14 +12,15 @@ type Props = {
 
 const InputFilter = styled(TextField)({
     '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      border: 'none',
-    },
-}})
+        '& fieldset': {
+            border: 'none',
+        },
+    }
+})
 
 const CheckboxFormGroup = styled(FormGroup)({
-    '& .MuiFormControlLabel-root':{
-        borderLeft:"1px solid #DED8E8"
+    '& .MuiFormControlLabel-root': {
+        borderLeft: "1px solid #DED8E8"
     }
 })
 
@@ -46,9 +49,18 @@ const Filter: FC<Props> = ({ onApply, onReset }) => {
     }
     return (<Box component={"form"} onSubmit={(e) => handleFilter(e)} className={classes.filters__container}>
         <div className={classes.input__fields__container}>
-            <InputFilter InputProps={{classes:{input:classes.label}}} InputLabelProps={{className:classes.label}} className={classes.input} name="search" size="small" id="outlined-basic" label="Search" variant="outlined" onChange={handleChange} value={formData.search} />
+            <Box className={classes.input}>
+                <SearchIcon  sx={{ml:"5px", color:"#7D3CE9"}}/>
+                <InputFilter InputProps={{ classes: { input: classes.label } }} InputLabelProps={{ className: classes.label }}
+                    name="search"
+                    size="small" id="outlined-basic"
+                    label="Search" variant="outlined"
+                    onChange={handleChange}
+                    value={formData.search} />
+
+            </Box>
             <CheckboxFormGroup >
-                <FormControlLabel classes={{label:classes.label}} control={<Checkbox sx={{ ml: "10px" }} size="small" name="showField" onChange={handleChange} checked={formData.showField} />} label="Show PII Only" />
+                <FormControlLabel classes={{ label: classes.label }} control={<Checkbox sx={{ ml: "10px" }} size="small" name="showField" onChange={handleChange} checked={formData.showField} />} label="Show PII Only" />
             </CheckboxFormGroup >
         </div>
         <div className={classes.form__btn__container}>
